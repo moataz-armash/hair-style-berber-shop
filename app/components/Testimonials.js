@@ -1,0 +1,106 @@
+// components/Testimonials.tsx
+"use client";
+
+import Section from "@/app/components/Section";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Star } from "lucide-react";
+
+/** Create a consistent pastel color from a string */
+function nameToColor(name) {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h << 5) - h + name.charCodeAt(i);
+  const hue = Math.abs(h) % 360;
+  return `hsl(${hue} 65% 55%)`;
+}
+
+/** Generate a data-URI SVG avatar using the first character of the name */
+function letterAvatarDataUri(name) {
+  const trimmed = name.trim();
+  const first = trimmed.charAt(0).toUpperCase();
+  const bg = nameToColor(trimmed);
+  const svg = `
+    <svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'>
+      <rect width='80' height='80' rx='999' fill='${bg}'/>
+      <text x='50%' y='52%' text-anchor='middle' dominant-baseline='middle'
+        font-family='system-ui,-apple-system,Segoe UI,Roboto,Arial' font-weight='700'
+        font-size='36' fill='#fff'>${first}</text>
+    </svg>`;
+  // encode safely for unicode
+  const base64 =
+    typeof window !== "undefined"
+      ? btoa(unescape(encodeURIComponent(svg)))
+      : Buffer.from(svg).toString("base64");
+  return `data:image/svg+xml;base64,${base64}`;
+}
+
+export default function Testimonials() {
+  const items = [
+    {
+      name: "ali hassan",
+      text: "الحلاق جميل وفيه مميزات جديدة ونظافة واهتمام — يستاهلون أكثر من خمس نجوم. من الأفضل إلى الأفضل إن شاء الله.",
+      rating: 5,
+    },
+    {
+      name: "عبدالله المقاطي",
+      text: "ماهر خلوق ومحترم ونظيف. مبدع بكل ما ذُكر فيه بدون مبالغة. يستاهلون مليون نجمة — خدمة فخمة وعندهم كرسي مساج للاسترخاء. أنصح بالتعامل معهم.",
+      rating: 5,
+    },
+    {
+      name: "Saeed Alfaifi",
+      text: "حلاق أنصح فيه، وماهر فنان ما قصّر معي. المحل جميل ما شاء الله ويشرح الصدر ويرجع له الواحد.",
+      rating: 5,
+    },
+  ];
+
+  return (
+    <Section
+      id="testimonials"
+      title="آراء عملائنا"
+      subtitle="⭐️⭐️⭐️⭐️⭐️ تقييم 4.9 من أكثر من 163 مراجعة على خرائط Google">
+      <div className="grid md:grid-cols-3 gap-6">
+        {items.map((t, i) => (
+          <motion.blockquote
+            key={t.name}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+            className="p-6 rounded-2xl bg-white/70 border border-neutral-200">
+            <div className="flex items-center gap-3 mb-3">
+              <Image
+                src={letterAvatarDataUri(t.name)}
+                alt={`صورة ${t.name} (مُولّدة بالحرف الأول)`}
+                width={40}
+                height={40}
+                className="h-10 w-10 rounded-full"
+              />
+              <div>
+                <p className="font-bold leading-tight">{t.name}</p>
+                <p className="text-xs text-neutral-500">Review from Google</p>
+              </div>
+            </div>
+            <div
+              className="flex items-center gap-1 mb-2 text-amber-500"
+              aria-hidden>
+              {Array.from({ length: t.rating }).map((_, idx) => (
+                <Star key={idx} className="w-4 h-4 fill-current" />
+              ))}
+            </div>
+            <p className="text-neutral-700">{t.text}</p>
+          </motion.blockquote>
+        ))}
+      </div>
+
+      <div className="mt-6">
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=Hair%20Style%20Barber%20Shop"
+          target="_blank"
+          className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-neutral-900 text-white">
+          <Star className="w-5 h-5" />
+          قراءة المراجعات على Google
+        </a>
+      </div>
+    </Section>
+  );
+}

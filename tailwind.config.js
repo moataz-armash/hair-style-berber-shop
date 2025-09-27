@@ -1,19 +1,24 @@
-export default config = {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+/** @type {import('tailwindcss').Config} */
+const config = {
+  content: ["./app/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        brand: {
-          900: "#0f0f0f",
-          700: "#1f1f1f",
-          100: "#f6f6f6",
+        sand: {
+          50: "#FCF6E8",
+          100: "#F7EED8",
+          200: "#EFE0BA",
+        },
+        ink: {
+          900: "#111111",
+          800: "#1A1A1A",
         },
       },
-      borderRadius: {
-        "2xl": "1rem",
-      },
+      borderRadius: { "3xl": "1.5rem" },
     },
   },
   darkMode: "class",
   plugins: [],
 };
+
+export default config;

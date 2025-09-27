@@ -13,6 +13,18 @@ html {
     scroll-padding-top: 112px;
   }
 }
+
+@theme {
+  --color-sand-50: #fcf6e8;
+  --color-sand-100: #f7eed8;
+  --color-sand-200: #efe0ba;
+
+  --color-ink-800: #1a1a1a;
+  --color-ink-900: #111111;
+
+  --radius-3xl: 1.5rem;
+}
+
 .container {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
 }

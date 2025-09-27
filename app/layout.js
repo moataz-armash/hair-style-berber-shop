@@ -22,7 +22,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl">
-      <body className="bg-gradient-to-b from-brand-100 to-white text-neutral-900">
+      <body className="bg-sand-50 text-ink-900">
         <Navbar />
         {children}
         <Footer />

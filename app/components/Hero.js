@@ -1,10 +1,30 @@
+// app/components/Hero.js
 "use client";
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Star, LocateFixed, ArrowRight } from "lucide-react";
 import { openNearestBranch } from "@/app/lib/openNearestBranch";
 
 export default function Hero() {
+  const [loaded, setLoaded] = useState(false);
+
+  // شيمر بسيط كصورة تمهيدية (placeholder)
+  const blurDataURL = `data:image/svg+xml;base64,${btoa(
+    `<svg xmlns='http://www.w3.org/2000/svg' width='700' height='500'>
+      <defs>
+        <linearGradient id='g' x1='0' x2='1'>
+          <stop stop-color='#FCF6E8' offset='0'/>
+          <stop stop-color='#F7EED8' offset='0.5'/>
+          <stop stop-color='#EFE0BA' offset='1'/>
+        </linearGradient>
+      </defs>
+      <rect rx='24' width='700' height='500' fill='url(#g)'>
+        <animate attributeName='x' from='-100' to='100' dur='1.4s' repeatCount='indefinite'/>
+      </rect>
+    </svg>`
+  )}`;
+
   return (
     <header className="relative overflow-hidden bg-gradient-to-b from-sand-50 to-sand-100">
       {/* هالة ناعمة */}
@@ -61,7 +81,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* صورة الهيرو */}
+        {/* صورة الهيرو مع لودر */}
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -69,14 +89,31 @@ export default function Hero() {
           className="relative">
           {/* إطار متدرّج عصري */}
           <div className="absolute -inset-3 rounded-3xl bg-gradient-to-tr from-ink-900/10 via-sand-200/60 to-transparent blur-xl -z-10" />
-          <Image
-            src="/hero-barber.png" // ضع الصورة في public/
-            alt="Hair Style — تجربة حلاقة رجالية راقية"
-            width={960}
-            height={800}
-            priority
-            className="w-full h-[340px] sm:h-[420px] lg:h-[520px] object-cover rounded-3xl shadow-xl"
-          />
+
+          <div className="relative w-full h-[340px] sm:h-[420px] lg:h-[520px] rounded-3xl overflow-hidden">
+            {!loaded && (
+              <div
+                className="absolute inset-0 grid place-items-center bg-white/60 backdrop-blur-sm"
+                aria-label="جاري تحميل الصورة"
+                role="status">
+                <div className="h-10 w-10 rounded-full border-2 border-ink-900/20 border-t-ink-900 animate-spin" />
+              </div>
+            )}
+
+            <Image
+              src="/hero-barber.png" // ضع الصورة في public/
+              alt="Hair Style — تجربة حلاقة رجالية راقية"
+              fill
+              priority
+              sizes="(max-width:1024px) 100vw, 50vw"
+              className={`object-cover shadow-xl transition-opacity duration-500 ${
+                loaded ? "opacity-100" : "opacity-0"
+              }`}
+              onLoadingComplete={() => setLoaded(true)}
+              placeholder="blur"
+              blurDataURL={blurDataURL}
+            />
+          </div>
         </motion.div>
       </div>
     </header>

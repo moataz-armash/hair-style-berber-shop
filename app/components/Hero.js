@@ -9,7 +9,7 @@ import { openNearestBranch } from "@/app/lib/openNearestBranch";
 export default function Hero() {
   const [loaded, setLoaded] = useState(false);
 
-  // شيمر بسيط كصورة تمهيدية (placeholder)
+  // شيمر بسيط كـ placeholder
   const blurDataURL = `data:image/svg+xml;base64,${btoa(
     `<svg xmlns='http://www.w3.org/2000/svg' width='700' height='500'>
       <defs>
@@ -37,7 +37,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}>
-            <span className="inline-flex items-center gap-2 text-sm bg-ink-900 text-white px-3 py-1.5 rounded-full shadow">
+            <span className="inline-flex items-center gap-2 text-sm bg-ink-900 text-white px-3 py-1.5 rounded-full shadow ring-1 ring-mint-500/30">
               <Star className="w-4 h-4" />
               تقييم 4.9 من أكثر من 170 مراجعة على خرائط Google
             </span>
@@ -48,7 +48,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-            اطلع بأناقة.. عيش الثقة
+            اطلع بأناقة تليق فيك{" "}
           </motion.h1>
 
           <motion.p
@@ -56,8 +56,8 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-ink-800/80 text-lg sm:text-xl max-w-3xl">
-            مو بس قصة شعر.. تجربة كاملة تخليك تحس بالثقة وتستمتع بالراحة—بسعر
-            يناسبك.
+            مو بس حلاقة؛ تجربة فخمة وراحة من أول ما تدخل لين آخر لمسة — وبسعر
+            يرضيك 😊.
           </motion.p>
 
           <motion.div
@@ -67,28 +67,28 @@ export default function Hero() {
             className="flex flex-wrap gap-3">
             <button
               onClick={openNearestBranch}
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-ink-900 text-white hover:opacity-90 transition shadow-lg">
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-mint-600 text-white hover:bg-mint-700 transition shadow-lg">
               <LocateFixed className="w-5 h-5" />
-              احصل على أقرب فرع
+              أقرب فرع لك الحين
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
             </button>
 
             <a
               href="#offers"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl border border-ink-900/15 bg-white/70 hover:bg-white transition">
-              الاطلاع على العروض الخاصة
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl border border-mint-200 bg-white/80 hover:bg-mint-50 text-ink-900 transition">
+              شوف عروضنا الخاصة
             </a>
           </motion.div>
         </div>
 
-        {/* صورة الهيرو مع لودر */}
+        {/* صورة الهيرو + لودر */}
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.2 }}
           className="relative">
-          {/* إطار متدرّج عصري */}
-          <div className="absolute -inset-3 rounded-3xl bg-gradient-to-tr from-ink-900/10 via-sand-200/60 to-transparent blur-xl -z-10" />
+          {/* إطار متدرّج عصري بألوان زاهية */}
+          <div className="absolute -inset-3 rounded-3xl bg-gradient-to-tr from-mint-200 via-sun-200 to-sky-200 blur-xl -z-10" />
 
           <div className="relative w-full h-[340px] sm:h-[420px] lg:h-[520px] rounded-3xl overflow-hidden">
             {!loaded && (

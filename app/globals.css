@@ -1,20 +1,35 @@
 @import "tailwindcss";
 
+/* سلوك عام */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 }
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
 }
-
 @media (min-width: 768px) {
   html {
     scroll-padding-top: 112px;
   }
 }
 
+/* Utilities للـ 3D Flip */
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}
+
+/* لوحة ألوان Tailwind v4 */
 @theme {
+  /* الأساسية (كريمي/أسود) */
   --color-sand-50: #fcf6e8;
   --color-sand-100: #f7eed8;
   --color-sand-200: #efe0ba;
@@ -22,13 +37,47 @@ html {
   --color-ink-800: #1a1a1a;
   --color-ink-900: #111111;
 
+  /* ألوان زاهية حديثة */
+  --color-mint-50: #ecfdf5;
+  --color-mint-200: #a7f3d0;
+  --color-mint-500: #10b981;
+  --color-mint-600: #059669;
+  --color-mint-700: #047857;
+
+  --color-sun-50: #fffbeb;
+  --color-sun-200: #fde68a;
+  --color-sun-500: #f59e0b;
+  --color-sun-600: #d97706;
+  --color-sun-700: #b45309;
+
+  --color-coral-50: #fef2f2;
+  --color-coral-200: #fecaca;
+  --color-coral-500: #f43f5e;
+  --color-coral-600: #e11d48;
+  --color-coral-700: #be123c;
+
+  --color-royal-50: #f5f3ff;
+  --color-royal-200: #ddd6fe;
+  --color-royal-500: #7c3aed;
+  --color-royal-600: #6d28d9;
+  --color-royal-700: #5b21b6;
+
+  --color-sky-50: #f0f9ff;
+  --color-sky-200: #bae6fd;
+  --color-sky-500: #0ea5e9;
+  --color-sky-600: #0284c7;
+  --color-sky-700: #0369a1;
+
+  /* زوايا إضافية */
   --radius-3xl: 1.5rem;
 }
 
+/* Container مختصرة */
 .container {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
+/* رموز خطوط/ألوان عامة (اختياري) */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -36,13 +85,22 @@ html {
   --font-mono: var(--font-geist-mono);
 }
 
+/* القيم الافتراضية لوضع الضوء */
+:root {
+  --background: var(--color-sand-50);
+  --foreground: var(--color-ink-900);
+}
+
+/* وضع الداكن */
 @media (prefers-color-scheme: dark) {
   :root {
+    color-scheme: dark;
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
 
+/* تطبيق الألوان على الصفحة */
 body {
   background: var(--background);
   color: var(--foreground);

@@ -57,7 +57,7 @@ export default function Testimonials() {
     <Section
       id="testimonials"
       title="آراء عملائنا"
-      subtitle="⭐️⭐️⭐️⭐️⭐️ تقييم 4.9 من أكثر من 163 مراجعة على خرائط Google">
+      subtitle="⭐️⭐️⭐️⭐️⭐️ تقييم 4.9 من أكثر من 170 مراجعة على خرائط Google">
       <div className="grid md:grid-cols-3 gap-6">
         {items.map((t, i) => (
           <motion.blockquote

@@ -5,6 +5,7 @@ import Section from "@/app/components/Section";
 import { motion } from "framer-motion";
 import { BadgeCheck, ArrowRight } from "lucide-react";
 import SaudiRiyal from "./icons/SaudiRiyal";
+import Link from "next/link";
 
 // بيانات العروض
 const OFFERS = [
@@ -175,18 +176,18 @@ export default function Offers() {
 
       {/* روابط عامة إضافية (ابقِها لو تحب) */}
       <div className="mt-8 flex flex-wrap gap-3">
-        <a
+        <Link
           href="https://linktr.ee/hairstaylee"
           target="_blank"
           className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl border border-ink-900/15 bg-white/70 hover:bg-white">
           كل الروابط عبر Linktree
-        </a>
-        <a
+        </Link>
+        <Link
           href="https://drive.google.com/file/d/1rO4N89ND3E4yZdEBccFEF-je970H8UMt/view"
           target="_blank"
           className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl border border-ink-900/15 bg-white/70 hover:bg-white">
           قائمة الأسعار (PDF)
-        </a>
+        </Link>
       </div>
     </Section>
   );

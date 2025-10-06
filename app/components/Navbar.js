@@ -42,12 +42,12 @@ export default function Navbar() {
         {/* روابط الديسكتوب */}
         <nav className="hidden md:flex items-center gap-6 text-sm">
           {links.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
               className="hover:text-ink-900/80 text-ink-900/70 transition">
               {l.label}
-            </a>
+            </Link>
           ))}
           <button
             onClick={openNearestBranch}

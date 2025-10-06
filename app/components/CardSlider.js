@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-cards";
+import Link from "next/link";
 
 export default function CardSlider({ items }) {
   if (!items?.length) return null;
@@ -52,9 +53,9 @@ export default function CardSlider({ items }) {
                   before:!hidden after:!hidden
                 ">
                 {it.href ? (
-                  <a href={it.href} className="block h-full w-full">
+                  <Link href={it.href} className="block h-full w-full">
                     {Card}
-                  </a>
+                  </Link>
                 ) : (
                   Card
                 )}

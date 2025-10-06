@@ -2,6 +2,7 @@
 "use client";
 import { MapPin, Star, Hourglass } from "lucide-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function BranchCard({ b, i = 0 }) {
   const disabled = Boolean(b.comingSoon);
@@ -51,7 +52,7 @@ export default function BranchCard({ b, i = 0 }) {
           </>
         ) : (
           <>
-            <a
+            <Link
               href={b.mapUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -59,16 +60,16 @@ export default function BranchCard({ b, i = 0 }) {
               title="فتح على الخريطة">
               <MapPin className="w-4 h-4" />
               فتح على الخريطة
-            </a>
+            </Link>
 
-            <a
+            <Link
               href={`https://www.google.com/maps/dir/?api=1&destination=${b.lat},${b.lng}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-ink-900 text-white hover:opacity-90 transition"
               title="الاتجاهات عبر Google Maps">
               الاتجاهات
-            </a>
+            </Link>
           </>
         )}
       </div>

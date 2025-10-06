@@ -5,6 +5,7 @@ import Section from "@/app/components/Section";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
+import Link from "next/link";
 
 /** Create a consistent pastel color from a string */
 function nameToColor(name) {
@@ -93,13 +94,13 @@ export default function Testimonials() {
       </div>
 
       <div className="mt-6">
-        <a
-          href="https://www.google.com/maps/search/?api=1&query=Hair%20Style%20Barber%20Shop"
+        <Link
+          href="https://www.google.com/maps/place/%D8%B5%D8%A7%D9%84%D9%88%D9%86+%D9%87%D9%8A%D8%B1+%D8%B3%D8%AA%D8%A7%D9%8A%D9%84+%D9%84%D9%84%D8%AD%D9%84%D8%A7%D9%82%D8%A9%E2%80%AD/@24.5801557,46.5439108,17z/data=!4m8!3m7!1s0x3e2f190072d4d74b:0x81dbff2dd278a52d!8m2!3d24.5801557!4d46.5439108!9m1!1b1!16s%2Fg%2F11xsnl2cyh?entry=ttu&g_ep=EgoyMDI1MTAwMS4wIKXMDSoASAFQAw%3D%3D"
           target="_blank"
           className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-neutral-900 text-white">
           <Star className="w-5 h-5" />
           قراءة المراجعات على Google
-        </a>
+        </Link>
       </div>
     </Section>
   );

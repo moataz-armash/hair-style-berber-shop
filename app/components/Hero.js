@@ -41,7 +41,7 @@ export default function Hero() {
             transition={{ duration: 0.7 }}>
             <span className="inline-flex items-center gap-2 text-sm bg-ink-900 text-white px-3 py-1.5 rounded-full shadow ring-1 ring-mint-500/30">
               <Star className="w-4 h-4" />
-              تقييم 4.9 من أكثر من 170 مراجعة على خرائط Google
+              تقييم 5.0 من أكثر من 186 مراجعة على خرائط Google
             </span>
           </motion.div>
 
@@ -50,7 +50,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-            اطلع بأناقة تليق فيك{" "}
+            اكشخ بحلاقة تليق فيك{" "}
           </motion.h1>
 
           <motion.p

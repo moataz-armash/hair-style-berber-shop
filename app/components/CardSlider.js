@@ -18,7 +18,7 @@ export default function CardSlider({ items }) {
           effect="cards"
           grabCursor
           modules={[EffectCards]}
-          className="w-full max-w-[340px] h-[480px] sm:max-w-[420px] sm:h-[560px] md:max-w-[480px] md:h-[620px] lg:max-w-[520px] lg:h-[560px] rounded-2xl sm:rounded-[28px]">
+          className="w-full max-w-[260px] h-[300px] sm:max-w-[420px] sm:h-[560px] md:max-w-[480px] md:h-[620px] lg:max-w-[520px] lg:h-[560px] rounded-2xl sm:rounded-[28px]">
           {items.map((it, i) => {
             const Card = (
               <figure

@@ -1,12 +1,12 @@
 export const gallery = [
-  {
-    src: "/imgs/berber_shop_1.jpeg",
-    w: 1200,
-    h: 1600,
-    alt: "قَصّة شعر كلاسيكية بأدوات احترافية",
-    blur: "/imgs/blur/berber_shop_1.jpg",
-    href: "#offers",
-  },
+  // {
+  //   src: "/imgs/berber_shop_1.jpeg",
+  //   w: 1200,
+  //   h: 1600,
+  //   alt: "قَصّة شعر كلاسيكية بأدوات احترافية",
+  //   blur: "/imgs/blur/berber_shop_1.jpg",
+  //   href: "#offers",
+  // },
   {
     src: "/imgs/berber_shop_2.jpeg",
     w: 1600,

@@ -5,6 +5,8 @@ import FinalCTA from "@/app/components/FinalCTA";
 import Benefits from "./components/Benefits";
 import Offers from "./components/Offers";
 import Branches from "./components/Branches";
+import GallerySection from "./components/CardSlider";
+import { gallery } from "./lib/gallery";
 
 const JsonLD = () => (
   <script
@@ -40,6 +42,11 @@ export default function Page() {
       <Hero />
       <Benefits />
       <Offers />
+      {/* <GallerySection
+        items={gallery}
+        // title="Crafted Highlights"
+        // description="Ten handpicked shots that showcase materials, texture, and the small details our customers love."
+      /> */}
       <Branches />
       <Social />
       <Testimonials />

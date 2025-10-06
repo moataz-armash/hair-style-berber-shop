@@ -5,6 +5,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Star, LocateFixed, ArrowRight } from "lucide-react";
 import { openNearestBranch } from "@/app/lib/openNearestBranch";
+import CardSlider from "./CardSlider";
+import { gallery } from "../lib/gallery";
 
 export default function Hero() {
   const [loaded, setLoaded] = useState(false);
@@ -81,40 +83,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* صورة الهيرو + لودر */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="relative">
-          {/* إطار متدرّج عصري بألوان زاهية */}
-          <div className="absolute -inset-3 rounded-3xl bg-gradient-to-tr from-mint-200 via-sun-200 to-sky-200 blur-xl -z-10" />
-
-          <div className="relative w-full h-[340px] sm:h-[420px] lg:h-[520px] rounded-3xl overflow-hidden">
-            {!loaded && (
-              <div
-                className="absolute inset-0 grid place-items-center bg-white/60 backdrop-blur-sm"
-                aria-label="جاري تحميل الصورة"
-                role="status">
-                <div className="h-10 w-10 rounded-full border-2 border-ink-900/20 border-t-ink-900 animate-spin" />
-              </div>
-            )}
-
-            <Image
-              src="/hero-barber.png" // ضع الصورة في public/
-              alt="Hair Style — تجربة حلاقة رجالية راقية"
-              fill
-              priority
-              sizes="(max-width:1024px) 100vw, 50vw"
-              className={`object-cover shadow-xl transition-opacity duration-500 ${
-                loaded ? "opacity-100" : "opacity-0"
-              }`}
-              onLoadingComplete={() => setLoaded(true)}
-              placeholder="blur"
-              blurDataURL={blurDataURL}
-            />
-          </div>
-        </motion.div>
+        <CardSlider items={gallery} />
       </div>
     </header>
   );

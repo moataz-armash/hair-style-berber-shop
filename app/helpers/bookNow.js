@@ -23,7 +23,7 @@ function roundUpToNext30(d = new Date()) {
   return fromMinutes(rounded.getHours() * 60 + rounded.getMinutes());
 }
 
-function buildSlots(dateStr, open = "10:00", close = "22:00") {
+function buildSlots(dateStr, open = "08:00", close = "24:00") {
   const openM = toMinutes(open);
   const closeM = toMinutes(close);
   let start = openM;

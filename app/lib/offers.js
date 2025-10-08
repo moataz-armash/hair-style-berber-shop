@@ -2,7 +2,7 @@
 // ملاحظة: استبدل قيم env بروابط الدفع الحقيقية (Payment Links) من كل مزود.
 // يمكنك تشغيل عرض أو مزود واحد فقط الآن، والباقي اتركه فاضي.
 
-export const HOURS = { open: "10:00", close: "22:00" };
+export const HOURS = { open: "08:00", close: "24:00" };
 
 export const OFFERS = [
   { id: "o50", name: "حزمة 50", amount: 50, currency: "SAR" },

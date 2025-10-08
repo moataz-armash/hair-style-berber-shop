@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { HOURS, OFFERS, PAYLINKS } from "../lib/offers";
 import { buildSlots, getLocalDateInputValue } from "../helpers/bookNow";
 import { BRANCHES } from "../lib/branches";
+import toast from "react-hot-toast";
 
 export function BookingModal({ onClose, defaultOfferId }) {
   const [loading, setLoading] = useState(false);
@@ -157,7 +158,10 @@ export function BookingModal({ onClose, defaultOfferId }) {
             <div className="relative">
               <select name="branchId" required className="dark-select">
                 {BRANCHES.map((b) => (
-                  <option key={b.id} value={b.id}>
+                  <option
+                    key={b.id}
+                    value={b.id}
+                    disabled={b.comingSoon && b.comingSoon}>
                     {b.name}
                   </option>
                 ))}

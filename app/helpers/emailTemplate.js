@@ -39,7 +39,7 @@ function getAdminEmailTemplate({
               <tr>
                 <td style="padding: 0;">
                   <div style="background-color: #10b981; color: white; text-align: center; padding: 12px; font-weight: 600; font-size: 14px;">
-                    🔔 عميل جديد في انتظار التأكيد
+                    🔔 عميل جديد 
                   </div>
                 </td>
               </tr>

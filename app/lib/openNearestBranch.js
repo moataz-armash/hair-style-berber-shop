@@ -24,7 +24,7 @@ export function openNearestBranch() {
   }
 
   // Show loading toast
-  const loadingToast = toast.loading("جارٍ تحديد موقعك...");
+  const loadingToast = toast.loading("نحدّد موقعك الآن...");
 
   // Set timeout for geolocation request (10 seconds)
   const timeout = setTimeout(() => {

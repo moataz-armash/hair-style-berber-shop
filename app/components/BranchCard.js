@@ -1,11 +1,23 @@
 // app/components/BranchCard.js
 "use client";
-import { MapPin, Star, Hourglass } from "lucide-react";
-import { motion } from "framer-motion";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { MapPin, Star, Hourglass } from "lucide-react";
 
 export default function BranchCard({ b, i = 0 }) {
   const disabled = Boolean(b.comingSoon);
+
+  // fallback إذا ما توفّرت mapUrl
+  const mapUrl =
+    b?.mapUrl ||
+    (b?.lat && b?.lng
+      ? `https://www.google.com/maps/search/?api=1&query=${b.lat},${b.lng}`
+      : "#");
+
+  const dirUrl =
+    b?.lat && b?.lng
+      ? `https://www.google.com/maps/dir/?api=1&destination=${b.lat},${b.lng}`
+      : mapUrl;
 
   return (
     <motion.div
@@ -13,7 +25,7 @@ export default function BranchCard({ b, i = 0 }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: i * 0.1 }}
-      className="relative p-6 rounded-2xl bg-white/80 border border-ink-900/10 shadow-sm">
+      className="relative p-6 rounded-2xl glass ring-1 text-white">
       <h3 className="text-lg font-bold mb-1">
         {b.name}{" "}
         {disabled && (
@@ -26,52 +38,34 @@ export default function BranchCard({ b, i = 0 }) {
         )}
       </h3>
 
-      <p className="text-ink-800/70 mb-4">{b.address}</p>
+      <p className="muted mb-4">{b.address}</p>
 
       {/* أزرار الإجراءات */}
       <div className="flex gap-2">
-        {disabled ? (
-          <>
-            <button
-              type="button"
-              disabled
-              aria-disabled="true"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-ink-900/15 bg-white text-ink-900 opacity-60 cursor-not-allowed"
-              title="سيتوفر قريبًا">
-              <MapPin className="w-4 h-4" />
-              فتح على الخريطة
-            </button>
-            <button
-              type="button"
-              disabled
-              aria-disabled="true"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-ink-900 text-white opacity-60 cursor-not-allowed"
-              title="سيتوفر قريبًا">
-              الاتجاهات
-            </button>
-          </>
-        ) : (
-          <>
-            <Link
-              href={b.mapUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-ink-900/15 hover:bg-mint-50 transition"
-              title="فتح على الخريطة">
-              <MapPin className="w-4 h-4" />
-              فتح على الخريطة
-            </Link>
+        <Link
+          href={disabled ? "#" : mapUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-disabled={disabled}
+          className={`btn-outline btn-nav ${
+            disabled ? "opacity-60 pointer-events-none" : ""
+          }`}
+          title="فتح على الخريطة">
+          <MapPin className="w-4 h-4" />
+          فتح على الخريطة
+        </Link>
 
-            <Link
-              href={`https://www.google.com/maps/dir/?api=1&destination=${b.lat},${b.lng}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-ink-900 text-white hover:opacity-90 transition"
-              title="الاتجاهات عبر Google Maps">
-              الاتجاهات
-            </Link>
-          </>
-        )}
+        <Link
+          href={disabled ? "#" : dirUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-disabled={disabled}
+          className={`btn-outline-secondary btn-nav ${
+            disabled ? "opacity-60 pointer-events-none" : ""
+          }`}
+          title="الاتجاهات عبر Google Maps">
+          الاتجاهات
+        </Link>
       </div>
 
       {/* نجوم التقييم (ديكور) */}

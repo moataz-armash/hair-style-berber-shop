@@ -1,37 +1,17 @@
 // app/components/Hero.js
 "use client";
-import { useState } from "react";
-import Image from "next/image";
+
 import { motion } from "framer-motion";
 import { Star, Calendar } from "lucide-react";
-import { openNearestBranch } from "@/app/lib/openNearestBranch";
 import CardSlider from "./CardSlider";
 import { gallery } from "../lib/gallery";
 import BookNow from "./BookNow";
 
 export default function Hero() {
-  const [loaded, setLoaded] = useState(false);
-
-  // شيمر بسيط كـ placeholder
-  const blurDataURL = `data:image/svg+xml;base64,${btoa(
-    `<svg xmlns='http://www.w3.org/2000/svg' width='700' height='500'>
-      <defs>
-        <linearGradient id='g' x1='0' x2='1'>
-          <stop stop-color='#FCF6E8' offset='0'/>
-          <stop stop-color='#F7EED8' offset='0.5'/>
-          <stop stop-color='#EFE0BA' offset='1'/>
-        </linearGradient>
-      </defs>
-      <rect rx='24' width='700' height='500' fill='url(#g)'>
-        <animate attributeName='x' from='-100' to='100' dur='1.4s' repeatCount='indefinite'/>
-      </rect>
-    </svg>`
-  )}`;
-
   return (
-    <header className="relative overflow-hidden bg-gradient-to-b from-sand-50 to-sand-100">
-      {/* هالة ناعمة */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(70%_60%_at_50%_0%,rgba(17,17,17,0.06),transparent_60%)]" />
+    <header className="relative overflow-hidden bg-ink-900/40 bg-aurora">
+      {/* هالة/غلالة الهيرو */}
+      <div className="absolute inset-0 -z-10 bg-hero-gradient" />
 
       <div className="container py-20 lg:py-28 grid lg:grid-cols-2 gap-10 items-center">
         {/* النص */}
@@ -40,9 +20,12 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}>
-            <span className="inline-flex items-center gap-2 text-sm bg-ink-900 text-white px-3 py-1.5 rounded-full shadow ring-1 ring-mint-500/30">
-              <Star className="w-4 h-4" />
-              تقييم 5.0 من أكثر من 186 مراجعة على خرائط Google
+            <span className="inline-flex items-center gap-2 text-xs sm:text-sm glass ring-1 px-3 py-1.5 rounded-full">
+              <Star className="w-4 h-4 text-sun-500" />
+              <span className="muted">
+                تقييم <span className="text-white">5.0</span> من أكثر من{" "}
+                <span className="text-white">186</span> مراجعة على خرائط Google
+              </span>
             </span>
           </motion.div>
 
@@ -51,14 +34,14 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-            اكشخ بحلاقة تليق فيك{" "}
+            اكشخ بحلاقة تليق فيك
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-ink-800/80 text-lg sm:text-xl max-w-3xl">
+            className="muted text-lg sm:text-xl max-w-3xl">
             مو بس حلاقة؛ تجربة فخمة وراحة من أول ما تدخل لين آخر لمسة — وبسعر
             يرضيك 😊.
           </motion.p>
@@ -68,26 +51,18 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
             className="flex flex-wrap gap-3">
-            {/* <button
-              onClick={openNearestBranch}
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-mint-600 text-white hover:bg-mint-700 transition shadow-lg">
-              <LocateFixed className="w-5 h-5" />
-              أقرب فرع لك الحين
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
-            </button> */}
-            <BookNow className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-mint-600 text-white cursor-pointer">
+            <BookNow className="btn-primary cursor-pointer">
               <Calendar className="w-5 h-5" />
               احجز موعدك
             </BookNow>
 
-            <a
-              href="#offers"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl border border-mint-200 bg-white/80 hover:bg-mint-50 text-ink-900 transition">
+            <a href="#offers" className="btn-outline">
               شوف عروضنا الخاصة
             </a>
           </motion.div>
         </div>
 
+        {/* سلايدر الصور (داخليًا رِسبونسِف) */}
         <CardSlider items={gallery} />
       </div>
     </header>

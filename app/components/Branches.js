@@ -1,14 +1,14 @@
 // app/components/Branches.js
 "use client";
+
 import { useMemo, useState } from "react";
 import Section from "@/app/components/Section";
-import { BRANCHES } from "@/app/lib/branches";
 import BranchCard from "@/app/components/BranchCard";
-import { LocateFixed, Compass, MapPin, Loader2 } from "lucide-react";
+import { BRANCHES } from "@/app/lib/branches";
 import { openNearestBranch } from "@/app/lib/openNearestBranch";
-import toast from "react-hot-toast";
+import { LocateFixed, Compass, MapPin, Loader2 } from "lucide-react";
+import { toast } from "react-hot-toast"; // npm i sonner (لو ما هو مركّب)
 
-// Haversine
 function distanceKm(a, b) {
   const toRad = (v) => (v * Math.PI) / 180;
   const R = 6371;
@@ -27,7 +27,7 @@ export default function Branches() {
   const [myPos, setMyPos] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // تجاهل الفروع القادمة من الحساب
+  // الفروع المتاحة الآن (استبعد "قريبًا")
   const activeBranches = useMemo(
     () => BRANCHES.filter((b) => !b.comingSoon),
     []
@@ -46,8 +46,7 @@ export default function Branches() {
   }, [distances]);
 
   const sorted = useMemo(() => {
-    if (!distances) return BRANCHES; // قبل تحديد الموقع، أعرض كل الفروع
-    // فرز النشطة أولاً حسب المسافة ثم تأتي "قريبًا" في النهاية
+    if (!distances) return BRANCHES; // قبل تحديد الموقع، أعرض كل الفروع كما هي
     const activeSorted = [...activeBranches].sort(
       (a, b) => distances[a.id] - distances[b.id]
     );
@@ -57,18 +56,14 @@ export default function Branches() {
 
   function useMyLocation() {
     if (!navigator.geolocation) {
-      toast.error("متصفحك لا يدعم تحديد الموقع. الرجاء تحديث المتصفح.");
+      toast.error("متصفحك لا يدعم تحديد الموقع. حدّث المتصفح وحاول مجددًا.");
       return;
     }
-
     setIsLoading(true);
 
-    // Set timeout for geolocation request
     const timeout = setTimeout(() => {
       setIsLoading(false);
-      toast.error(
-        "استغرق تحديد الموقع وقتًا طويلاً. الرجاء المحاولة مرة أخرى."
-      );
+      toast.error("استغرق تحديد الموقع وقتًا طويلاً. حاول مرة ثانية.");
     }, 10000);
 
     navigator.geolocation.getCurrentPosition(
@@ -76,38 +71,28 @@ export default function Branches() {
         clearTimeout(timeout);
         setIsLoading(false);
         setMyPos({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-        toast.success("تم تحديد موقعك بنجاح! الفروع مرتبة حسب القرب منك.");
+        toast.success("تم تحديد موقعك! رتّبنا الفروع حسب القرب.");
       },
       (error) => {
         clearTimeout(timeout);
         setIsLoading(false);
-
-        let errorMessage = "لم نستطع تحديد موقعك. ";
-
+        let msg = "لم نستطع تحديد موقعك. ";
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            errorMessage += "الرجاء السماح بالوصول للموقع من إعدادات المتصفح.";
+            msg += "رجاءً اسمح بالوصول للموقع من إعدادات المتصفح.";
             break;
           case error.POSITION_UNAVAILABLE:
-            errorMessage += "معلومات الموقع غير متوفرة حاليًا.";
+            msg += "بيانات الموقع غير متوفرة حاليًا.";
             break;
           case error.TIMEOUT:
-            errorMessage +=
-              "انتهت مهلة تحديد الموقع. الرجاء المحاولة مرة أخرى.";
+            msg += "انتهت مهلة تحديد الموقع. حاول مرة أخرى.";
             break;
           default:
-            errorMessage += "حدث خطأ غير معروف.";
+            msg += "حدث خطأ غير معروف.";
         }
-
-        toast.error(errorMessage, {
-          duration: 5000,
-        });
+        toast.error(msg, { duration: 5000 });
       },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 300000, // Cache position for 5 minutes
-      }
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 }
     );
   }
 
@@ -116,12 +101,12 @@ export default function Branches() {
       id="branches"
       title="فروعنا"
       subtitle="فروع الرياض والخبر متاحة الآن — استخدم موقعك لعرض الأقرب أولًا. فرع الدمام قريبًا.">
-      {/* أزرار */}
+      {/* أزرار التحكم */}
       <div className="flex flex-wrap items-center gap-3 mb-6">
         <button
           onClick={openNearestBranch}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-mint-600 text-white hover:bg-mint-700 transition shadow disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={isLoading}>
+          disabled={isLoading}
+          className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed">
           <LocateFixed className="w-5 h-5" />
           افتح أقرب فرع عبر Google Maps
         </button>
@@ -129,17 +114,17 @@ export default function Branches() {
         <button
           onClick={useMyLocation}
           disabled={isLoading}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl border border-ink-900/15 bg-white hover:bg-mint-50 transition disabled:opacity-50 disabled:cursor-not-allowed">
+          className="btn-outline btn-nav disabled:opacity-50 disabled:cursor-not-allowed">
           {isLoading ? (
             <Loader2 className="w-5 h-5 animate-spin" />
           ) : (
             <Compass className="w-5 h-5" />
           )}
-          {isLoading ? "جارٍ تحديد الموقع..." : "استخدم موقعي للفرز"}
+          {isLoading ? "نحدّد موقعك الآن..." : "رتّب حسب موقعي"}
         </button>
       </div>
 
-      {/* الشبكة */}
+      {/* شبكة البطاقات */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {sorted.map((b) => {
           const dist = distances && !b.comingSoon ? distances[b.id] : null;
@@ -148,8 +133,12 @@ export default function Branches() {
           return (
             <div
               key={b.id}
-              className="relative rounded-3xl p-[2px] bg-gradient-to-br from-mint-200 via-sun-200 to-sky-200 shadow-sm">
-              <div className="rounded-3xl bg-white/90 backdrop-blur-sm">
+              className="
+                relative rounded-3xl p-[1.5px]
+                bg-gradient-to-br from-royal-600/40 via-ink-700 to-mint-600/30
+                shadow-[0_10px_40px_rgba(0,0,0,0.35)]
+              ">
+              <div className="rounded-3xl glass-2 ring-1">
                 {/* شارة المسافة */}
                 {dist !== null && (
                   <div className="absolute top-3 left-3 z-10">
@@ -169,6 +158,7 @@ export default function Branches() {
                   </div>
                 )}
 
+                {/* بطاقة الفرع */}
                 <div className="p-4">
                   <BranchCard b={b} i={0} />
                 </div>

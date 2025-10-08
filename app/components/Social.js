@@ -1,25 +1,41 @@
+// app/components/Social.js
 "use client";
+
 import Section from "@/app/components/Section";
-import { Instagram } from "lucide-react";
 import Link from "next/link";
+import { Instagram } from "lucide-react";
 import { SiTiktok } from "react-icons/si";
 
 export default function Social() {
+  const items = [
+    {
+      href: "https://www.instagram.com/hairstylesaudi/",
+      label: "إنستغرام",
+      Icon: Instagram,
+    },
+    {
+      href: "https://www.tiktok.com/@hair.style.saudi",
+      label: "تيك توك",
+      Icon: SiTiktok,
+    },
+  ];
+
   return (
-    <Section title="تابعنا على الشبكات الاجتماعية">
+    <Section title="تابعنا على منصات التواصل الاجتماعي">
       <div className="flex flex-wrap gap-3">
-        <Link
-          href="https://www.instagram.com/hairstylesaudi/"
-          target="_blank"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl border border-neutral-300 hover:bg-neutral-100">
-          <Instagram className="w-5 h-5" /> إنستغرام
-        </Link>
-        <Link
-          href="https://www.tiktok.com/@hair.style.saudi"
-          target="_blank"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl border border-neutral-300 hover:bg-neutral-100">
-          <SiTiktok className="w-5 h-5" /> تيك توك
-        </Link>
+        {items.map(({ href, label, Icon }) => (
+          <Link
+            key={href}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            prefetch={false}
+            className="btn-outline btn-nav"
+            aria-label={label}>
+            <Icon className="w-5 h-5" />
+            {label}
+          </Link>
+        ))}
       </div>
     </Section>
   );

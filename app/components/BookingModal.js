@@ -1,3 +1,8 @@
+import { useEffect, useMemo, useState } from "react";
+import { HOURS, OFFERS, PAYLINKS } from "../lib/offers";
+import { buildSlots, getLocalDateInputValue } from "../helpers/bookNow";
+import { BRANCHES } from "../lib/branches";
+
 export function BookingModal({ onClose, defaultOfferId }) {
   const [loading, setLoading] = useState(false);
   const [gateway, setGateway] = useState("cash"); // auto | tap | paytabs | moyasar
@@ -106,76 +111,106 @@ export function BookingModal({ onClose, defaultOfferId }) {
   }, [slots]);
   return (
     <div
-      className="fixed inset-0 z-50 grid place-items-center bg-black/50 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 grid place-items-center bg-ink-900/60 backdrop-blur-sm p-4"
       onClick={onClose}
       role="dialog"
-      aria-modal>
+      aria-modal="true">
       <div
-        className="w-full max-w-lg rounded-3xl bg-white p-5 sm:p-6 shadow-xl"
+        className="w-full max-w-lg rounded-3xl glass-2 ring-1 p-5 sm:p-6 shadow-xl text-white"
         onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-extrabold">احجز موعدك</h3>
           <button
             onClick={onClose}
-            className="rounded-xl px-3 py-1.5 bg-sand-100 hover:bg-sand-200 cursor-pointer">
+            className="btn-outline btn-nav cursor-pointer">
             إغلاق
           </button>
         </div>
 
         <form onSubmit={onSubmit} className="grid gap-3">
+          {/* الاسم */}
           <div className="grid gap-1">
-            <label className="text-sm">الاسم الكامل</label>
+            <label className="text-sm muted-2">الاسم الكامل</label>
             <input
               name="name"
               required
-              className="rounded-xl border border-ink-900/15 px-3 py-2"
+              className="rounded-xl bg-[var(--surface-1)] ring-1 px-3 py-2 text-white placeholder:muted focus:outline-none focus:outline-2 focus:outline-royal-600"
               placeholder="اكتب اسمك"
             />
           </div>
 
+          {/* الجوال */}
           <div className="grid gap-1">
-            <label className="text-sm">رقم الجوال</label>
+            <label className="text-sm muted-2">رقم الجوال</label>
             <input
               name="phone"
               required
               inputMode="tel"
-              className="rounded-xl border border-ink-900/15 px-3 py-2"
+              className="rounded-xl bg-[var(--surface-1)] ring-1 px-3 py-2 text-white placeholder:muted focus:outline-none focus:outline-2 focus:outline-royal-600"
               placeholder="05XXXXXXXX"
             />
           </div>
 
+          {/* الفرع */}
           <div className="grid gap-1">
-            <label className="text-sm">اختر الفرع</label>
-            <select
-              name="branchId"
-              required
-              className="rounded-xl border border-ink-900/15 px-3 py-2">
-              {BRANCHES.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.name}
-                </option>
-              ))}
-            </select>
+            <label className="text-sm muted-2">اختيار الفرع</label>
+            <div className="relative">
+              <select name="branchId" required className="dark-select">
+                {BRANCHES.map((b) => (
+                  <option key={b.id} value={b.id}>
+                    {b.name}
+                  </option>
+                ))}
+              </select>
+              <svg
+                className="select-chevron w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
           </div>
 
+          {/* الباقة */}
           <div className="grid gap-1">
-            <label className="text-sm">اختر الباقة</label>
-            <select
-              name="offerId"
-              defaultValue={firstActiveOfferId}
-              required
-              className="rounded-xl border border-ink-900/15 px-3 py-2">
-              {OFFERS.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.name} — {o.amount} {o.currency}
-                </option>
-              ))}
-            </select>
+            <label className="text-sm muted-2">اختيار الباقة</label>
+            <div className="relative">
+              <select
+                name="offerId"
+                defaultValue={firstActiveOfferId}
+                required
+                className="dark-select">
+                {OFFERS.map((o) => (
+                  <option key={o.id} value={o.id}>
+                    {o.name} — {o.amount} {o.currency}
+                  </option>
+                ))}
+              </select>
+              <svg
+                className="select-chevron w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
           </div>
 
+          {/* التاريخ والوقت */}
           <div className="grid grid-cols-2 gap-3">
             <div className="grid gap-1">
-              <label className="text-sm">التاريخ</label>
+              <label className="text-sm muted-2">التاريخ</label>
               <input
                 type="date"
                 name="date"
@@ -183,82 +218,91 @@ export function BookingModal({ onClose, defaultOfferId }) {
                 min={today}
                 onChange={(e) => setDate(e.target.value)}
                 required
-                className="rounded-xl border border-ink-900/15 px-3 py-2"
+                className="rounded-xl bg-[var(--surface-1)] ring-1 px-3 py-2 text-white focus:outline-none focus:outline-2 focus:outline-royal-600"
+                style={{ colorScheme: "dark" }}
               />
             </div>
             <div className="grid gap-1">
-              <label className="text-sm">الوقت</label>
-              <select
-                name="time"
-                required
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-                className="rounded-xl border border-ink-900/15 px-3 py-2">
-                {slots.length === 0 ? (
-                  <option value="" disabled>
-                    لا توجد أوقات متاحة اليوم — اختر تاريخًا آخر
-                  </option>
-                ) : (
-                  slots.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
+              <label className="text-sm muted-2">الوقت</label>
+              <div className="relative">
+                <select
+                  name="time"
+                  required
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                  className="dark-select">
+                  {slots.length === 0 ? (
+                    <option value="" disabled>
+                      لا تتوفر مواعيد لهذا اليوم — الرجاء اختيار تاريخ آخر
                     </option>
-                  ))
-                )}
-              </select>
+                  ) : (
+                    slots.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))
+                  )}
+                </select>
+                <svg
+                  className="select-chevron w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
 
-          {/* اختيار بوابة الدفع */}
+          {/* طريقة الدفع */}
           <div className="grid gap-2">
-            <label className="text-sm">بوابة الدفع</label>
+            <label className="text-sm muted-2">طريقة الدفع</label>
             <div className="flex flex-wrap gap-2">
-              {/* <RadioChip
-                value="auto"
-                label="تلقائي (موصى به)"
-                checked={gateway === "auto"}
-                onChange={setGateway}
-              /> */}
               <RadioChip
                 value="cash"
-                label="الدفع كاش بالفرع"
+                label="نقدًا (كاش) في الفرع"
                 checked={gateway === "cash"}
                 onChange={setGateway}
               />
               <RadioChip
                 value="tap"
-                label="Tap (مدى/Apple Pay)"
+                label="Tap (مدى / Apple Pay)"
                 checked={gateway === "tap"}
-                disabled={true}
+                disabled
                 onChange={setGateway}
               />
               <RadioChip
                 value="paytabs"
                 label="PayTabs"
                 checked={gateway === "paytabs"}
-                disabled={true}
+                disabled
                 onChange={setGateway}
               />
               <RadioChip
                 value="moyasar"
                 label="Moyasar"
                 checked={gateway === "moyasar"}
-                disabled={true}
+                disabled
                 onChange={setGateway}
               />
             </div>
-            <p className="text-xs text-ink-900/60">
-              جميع الخيارات تدعم بطاقات مدى، فيزا/ماستر، ومعظمها يدعم Apple Pay
-              وSTC Pay حسب إعدادات حسابك.
+            <p className="text-xs muted-2">
+              تدعم الخيارات بطاقات مدى، فيزا/ماستركارد، ومعظمها يدعم Apple Pay
+              وSTC Pay بحسب إعدادات حسابك.
             </p>
           </div>
 
-          {msg && <p className="text-sm text-coral-700">{msg}</p>}
+          {msg && <p className="text-sm text-coral-500">{msg}</p>}
 
           <button
             disabled={loading}
-            className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-ink-900 text-white px-5 py-3 hover:opacity-90 disabled:cursor-not-allowed">
-            {loading ? "جارٍ المعالجة..." : "تأكيد الحجز والانتقال للدفع"}
+            className="mt-2 btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed">
+            {loading ? "جاري معالجة الطلب..." : "تأكيد الحجز والمتابعة"}
           </button>
         </form>
       </div>
@@ -266,15 +310,24 @@ export function BookingModal({ onClose, defaultOfferId }) {
   );
 }
 
-function RadioChip({ value, label, checked, onChange, disabled }) {
-  const baseClasses =
-    "select-none rounded-2xl border px-3 py-1.5 text-sm transition";
-  const stateClasses = checked
-    ? "bg-mint-600 text-white border-mint-600"
-    : "bg-white border-ink-900/15 hover:bg-mint-50";
-  const cursorClass = disabled ? "cursor-not-allowed" : "cursor-pointer";
+export default function RadioChip({
+  value,
+  label,
+  checked,
+  onChange,
+  disabled = false,
+}) {
+  const base =
+    "inline-flex items-center gap-2 rounded-2xl px-3 py-1.5 text-sm select-none transition focus-within:outline focus-within:outline-2 focus-within:outline-royal-600";
+  const state = disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer";
+  const surfaceChecked =
+    "text-white bg-gradient-to-r from-royal-600 to-mint-600 shadow-[0_6px_18px_rgba(124,58,237,.25),0_4px_14px_rgba(16,185,129,.18)]";
+  const surfaceIdle =
+    "text-white/85 bg-[var(--surface-1)] ring-1 ring-[var(--ring-1)] hover:bg-[var(--surface-2)]";
+
   return (
-    <label className={`${baseClasses} ${stateClasses} ${cursorClass}`}>
+    <label
+      className={`${base} ${checked ? surfaceChecked : surfaceIdle} ${state}`}>
       <input
         type="radio"
         name="gateway"
@@ -284,7 +337,14 @@ function RadioChip({ value, label, checked, onChange, disabled }) {
         onChange={() => onChange(value)}
         className="sr-only"
       />
-      {label}
+      {/* نقطة حالة بسيطة */}
+      <span
+        className={`h-2.5 w-2.5 rounded-full ${
+          checked ? "bg-white" : "bg-white/30"
+        }`}
+        aria-hidden
+      />
+      <span>{label}</span>
     </label>
   );
 }

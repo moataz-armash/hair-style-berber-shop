@@ -59,36 +59,43 @@ export default function Testimonials() {
       id="testimonials"
       title="آراء عملائنا"
       subtitle="⭐️⭐️⭐️⭐️⭐️ تقييم 5.0 من أكثر من 186 مراجعة على خرائط Google">
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid gap-6 md:grid-cols-3">
         {items.map((t, i) => (
           <motion.blockquote
             key={t.name}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="p-6 rounded-2xl bg-white/70 border border-neutral-200">
-            <div className="flex items-center gap-3 mb-3">
-              <Image
-                src={letterAvatarDataUri(t.name)}
-                alt={`صورة ${t.name} (مُولّدة بالحرف الأول)`}
-                width={40}
-                height={40}
-                className="h-10 w-10 rounded-full"
-              />
-              <div>
-                <p className="font-bold leading-tight">{t.name}</p>
-                <p className="text-xs text-neutral-500">Review from Google</p>
+            className="relative rounded-3xl p-[1.5px]
+                       bg-gradient-to-br from-royal-600/40 via-ink-700 to-mint-600/30
+                       shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
+            {/* inner glass card (dark-ready) */}
+            <div className="rounded-3xl glass-2 ring-1 p-6 text-white h-full">
+              <div className="flex items-center gap-3 mb-3">
+                <Image
+                  src={letterAvatarDataUri(t.name)}
+                  alt={`صورة ${t.name} (الأحرف الأولى)`}
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-full ring-1 ring-white/10"
+                />
+                <div>
+                  <p className="font-bold leading-tight">{t.name}</p>
+                  <p className="text-xs muted-2">مراجعة من Google</p>
+                </div>
               </div>
+
+              <div
+                className="flex items-center gap-1 mb-3 text-sun-500"
+                aria-hidden>
+                {Array.from({ length: t.rating || 5 }).map((_, idx) => (
+                  <Star key={idx} className="w-4 h-4 fill-current" />
+                ))}
+              </div>
+
+              <p className="muted">{t.text}</p>
             </div>
-            <div
-              className="flex items-center gap-1 mb-2 text-amber-500"
-              aria-hidden>
-              {Array.from({ length: t.rating }).map((_, idx) => (
-                <Star key={idx} className="w-4 h-4 fill-current" />
-              ))}
-            </div>
-            <p className="text-neutral-700">{t.text}</p>
           </motion.blockquote>
         ))}
       </div>
@@ -97,7 +104,8 @@ export default function Testimonials() {
         <Link
           href="https://www.google.com/maps/place/%D8%B5%D8%A7%D9%84%D9%88%D9%86+%D9%87%D9%8A%D8%B1+%D8%B3%D8%AA%D8%A7%D9%8A%D9%84+%D9%84%D9%84%D8%AD%D9%84%D8%A7%D9%82%D8%A9%E2%80%AD/@24.5801557,46.5439108,17z/data=!4m8!3m7!1s0x3e2f190072d4d74b:0x81dbff2dd278a52d!8m2!3d24.5801557!4d46.5439108!9m1!1b1!16s%2Fg%2F11xsnl2cyh?entry=ttu&g_ep=EgoyMDI1MTAwMS4wIKXMDSoASAFQAw%3D%3D"
           target="_blank"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-neutral-900 text-white">
+          rel="noopener noreferrer"
+          className="btn-outline-hero">
           <Star className="w-5 h-5" />
           قراءة المراجعات على Google
         </Link>

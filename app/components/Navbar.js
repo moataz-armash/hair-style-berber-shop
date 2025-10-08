@@ -20,21 +20,21 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-ink-900/10 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <header className="sticky top-0 z-50 border-b border-white/10 backdrop-blur bg-ink-900/60 supports-[backdrop-filter]:bg-ink-900/50">
       <div className="container py-3 flex items-center justify-between">
-        {/* اللوجو (LCP + SEO) */}
+        {/* اللوجو */}
         <Link
           href="/"
           aria-label="Hair Style — الصفحة الرئيسية"
           className="flex items-center">
           <Image
-            src="/logo.png" // من public/
+            src="/hairstyle_logo_bgwhitewebp.webp"
             alt="شعار Hair Style — صالون رجالي"
-            width={140}
-            height={36}
+            width={160}
+            height={50}
             priority
             sizes="(max-width: 768px) 120px, 140px"
-            className="h-9 w-auto" // h-18 غير موجودة في Tailwind الافتراضي
+            className="h-16 w-auto rounded-2xl"
           />
           <span className="sr-only">Hair Style</span>
         </Link>
@@ -42,16 +42,11 @@ export default function Navbar() {
         {/* روابط الديسكتوب */}
         <nav className="hidden md:flex items-center gap-6 text-sm">
           {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="hover:text-ink-900/80 text-ink-900/70 transition">
+            <Link key={l.href} href={l.href} className="nav-link">
               {l.label}
             </Link>
           ))}
-          <button
-            onClick={openNearestBranch}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-mint-600 text-white hover:bg-mint-700 transition shadow-sm">
+          <button onClick={openNearestBranch} className="btn-outline btn-nav">
             <LocateFixed className="w-4 h-4" />
             أقرب فرع
           </button>
@@ -59,7 +54,7 @@ export default function Navbar() {
 
         {/* زر القائمة للجوال */}
         <button
-          className="md:hidden p-2 rounded-lg hover:bg-sand-100"
+          className="md:hidden p-2 rounded-lg hover:bg-white/5 text-white"
           onClick={() => setOpen((s) => !s)}
           aria-label="فتح/إغلاق القائمة"
           aria-expanded={open}
@@ -72,14 +67,14 @@ export default function Navbar() {
       {open && (
         <div
           id="mobile-menu"
-          className="md:hidden border-t border-ink-900/10 bg-white/95 backdrop-blur">
+          className="md:hidden border-t border-white/10 bg-ink-900/80 backdrop-blur">
           <div className="container py-3 flex flex-col gap-3">
             {links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
                 onClick={closeAndGo}
-                className="py-2 text-ink-900/80 hover:text-ink-900 transition">
+                className="py-2 text-white/80 hover:text-white transition">
                 {l.label}
               </Link>
             ))}
@@ -88,7 +83,7 @@ export default function Navbar() {
                 closeAndGo();
                 openNearestBranch();
               }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-mint-600 text-white hover:bg-mint-700 transition shadow-sm">
+              className="btn-outline w-full justify-center">
               <LocateFixed className="w-4 h-4" />
               أقرب فرع
             </button>

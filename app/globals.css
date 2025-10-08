@@ -1,9 +1,24 @@
 @import "tailwindcss";
 
-/* سلوك عام */
+/* ---------- Global behavior ---------- */
 :root {
-  color-scheme: light;
+  /* dark-only */
+  color-scheme: dark;
+
+  /* App surfaces */
+  --background: #0a0a0a; /* page bg */
+  --foreground: #ededed; /* text fg */
+
+  /* Soft card layers for glassy UI */
+  --surface-1: rgba(255, 255, 255, 0.03);
+  --surface-2: rgba(255, 255, 255, 0.06);
+  --surface-3: rgba(255, 255, 255, 0.1);
+
+  /* Rings / borders */
+  --ring-1: rgba(255, 255, 255, 0.08);
+  --ring-2: rgba(255, 255, 255, 0.14);
 }
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
@@ -14,7 +29,7 @@ html {
   }
 }
 
-/* Utilities للـ 3D Flip */
+/* ---------- 3D utilities for offer flip cards ---------- */
 @layer utilities {
   .perspective-1000 {
     perspective: 1000px;
@@ -27,82 +42,377 @@ html {
   }
 }
 
-/* لوحة ألوان Tailwind v4 */
+/* ---------- Tailwind v4 color tokens (dark-first) ---------- */
 @theme {
-  /* الأساسية (كريمي/أسود) */
+  /* Neutral ink scales (dark base) */
+  --color-ink-900: #0b0b0b;
+  --color-ink-800: #111214;
+  --color-ink-700: #16181b;
+  --color-ink-600: #1f2329;
+
+  /* Light “sand” kept as accents only (used sparingly) */
   --color-sand-50: #fcf6e8;
   --color-sand-100: #f7eed8;
   --color-sand-200: #efe0ba;
 
-  --color-ink-800: #1a1a1a;
-  --color-ink-900: #111111;
-
-  /* ألوان زاهية حديثة */
-  --color-mint-50: #ecfdf5;
+  /* Vivid accent palette for neon/glow UIs */
   --color-mint-200: #a7f3d0;
   --color-mint-500: #10b981;
-  --color-mint-600: #059669;
-  --color-mint-700: #047857;
+  --color-mint-600: #0fb27e;
+  --color-mint-700: #0a8a62;
 
-  --color-sun-50: #fffbeb;
-  --color-sun-200: #fde68a;
-  --color-sun-500: #f59e0b;
-  --color-sun-600: #d97706;
-  --color-sun-700: #b45309;
-
-  --color-coral-50: #fef2f2;
-  --color-coral-200: #fecaca;
-  --color-coral-500: #f43f5e;
-  --color-coral-600: #e11d48;
-  --color-coral-700: #be123c;
-
-  --color-royal-50: #f5f3ff;
-  --color-royal-200: #ddd6fe;
-  --color-royal-500: #7c3aed;
+  --color-royal-200: #c7b5ff;
+  --color-royal-500: #7c3aed; /* primary violet */
   --color-royal-600: #6d28d9;
   --color-royal-700: #5b21b6;
 
-  --color-sky-50: #f0f9ff;
-  --color-sky-200: #bae6fd;
+  --color-sky-200: #93c5fd;
   --color-sky-500: #0ea5e9;
   --color-sky-600: #0284c7;
-  --color-sky-700: #0369a1;
 
-  /* زوايا إضافية */
+  --color-coral-200: #fecaca;
+  --color-coral-500: #f43f5e;
+  --color-coral-600: #e11d48;
+
   --radius-3xl: 1.5rem;
 }
 
-/* Container مختصرة */
+/* Shorthands */
 .container {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
-/* رموز خطوط/ألوان عامة (اختياري) */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
-/* القيم الافتراضية لوضع الضوء */
-:root {
-  --background: var(--color-sand-50);
-  --foreground: var(--color-ink-900);
-}
-
-/* وضع الداكن */
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-/* تطبيق الألوان على الصفحة */
+/* ---------- Real dark default (no light theme) ---------- */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ---------- Fancy helpers (use directly in components) ---------- */
+@layer utilities {
+  /* Glass cards */
+  .glass {
+    background: var(--surface-1);
+    backdrop-filter: blur(10px);
+  }
+  .glass-2 {
+    background: var(--surface-2);
+    backdrop-filter: blur(14px);
+  }
+  .ring-1 {
+    box-shadow: 0 0 0 1px var(--ring-1) inset;
+  }
+  .ring-2 {
+    box-shadow: 0 0 0 1px var(--ring-2) inset;
+  }
+
+  /* Accent gradient backgrounds */
+  .bg-aurora {
+    background-image:
+      radial-gradient(
+        60% 40% at 70% 0%,
+        rgba(124, 58, 237, 0.35),
+        transparent 60%
+      ),
+      radial-gradient(
+        40% 30% at 10% 0%,
+        rgba(16, 185, 129, 0.25),
+        transparent 60%
+      ),
+      radial-gradient(
+        50% 50% at 80% 100%,
+        rgba(14, 165, 233, 0.25),
+        transparent 60%
+      );
+  }
+  .bg-hero-gradient {
+    background-image: linear-gradient(
+      180deg,
+      rgba(124, 58, 237, 0.22),
+      rgba(15, 178, 126, 0.1) 35%,
+      rgba(11, 11, 11, 0) 60%
+    );
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-white;
+    background: linear-gradient(
+      135deg,
+      var(--color-royal-600),
+      var(--color-mint-600)
+    );
+    box-shadow:
+      0 10px 30px -12px rgba(124, 58, 237, 0.45),
+      0 6px 18px -14px rgba(16, 185, 129, 0.35);
+  }
+  .btn-primary:hover {
+    filter: brightness(1.05);
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3;
+    color: #e6e6e6;
+    background: var(--surface-1);
+    box-shadow: 0 0 0 1px var(--ring-1) inset;
+  }
+  .btn-outline:hover {
+    background: var(--surface-2);
+  }
+
+  .btn-outline-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 bg-transparent;
+    border: 2px solid transparent;
+    background-image:
+      linear-gradient(white, white),
+      linear-gradient(135deg, var(--color-royal-600), var(--color-mint-600));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+
+    color: var(--color-royal-600);
+  }
+
+  .btn-outline-secondary:hover {
+    /* background-image:
+      linear-gradient(
+        135deg,
+        rgba(124, 58, 237, 0.05),
+        rgba(16, 185, 129, 0.05)
+      ),
+      linear-gradient(135deg, var(--color-royal-600), var(--color-mint-600)); */
+  }
+
+  /* Card base */
+  .card {
+    @apply rounded-3xl p-6;
+    background: var(--surface-2);
+    box-shadow:
+      0 0 0 1px var(--ring-1) inset,
+      0 12px 40px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Subtle text colors for dark */
+  .muted {
+    color: rgba(237, 237, 237, 0.7);
+  }
+  .muted-2 {
+    color: rgba(237, 237, 237, 0.55);
+  }
+
+  /* Dark select styling with better contrast and readability */
+  .dark-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    color-scheme: dark;
+    background-color: var(
+      --surface-2
+    ); /* Use background-color not background */
+    color: #f5f5f5;
+    box-shadow:
+      0 0 0 1px var(--ring-2) inset,
+      0 2px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 0.75rem;
+    padding: 0.625rem 2.5rem 0.625rem 0.875rem;
+    line-height: 1.5;
+    width: 100%;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none; /* Remove any default border */
+  }
+
+  .dark-select:hover {
+    background-color: var(--surface-3);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.18) inset,
+      0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .dark-select:focus {
+    outline: 2px solid var(--color-royal-500);
+    outline-offset: 0;
+    background-color: var(--surface-3);
+    box-shadow:
+      0 0 0 1px var(--color-royal-500) inset,
+      0 0 0 3px rgba(124, 58, 237, 0.15),
+      0 4px 16px rgba(124, 58, 237, 0.25);
+  }
+
+  /* Disabled state */
+  .dark-select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--surface-1);
+  }
+
+  /* Force dark background immediately - prevent white flash */
+  .dark-select option,
+  .dark-select optgroup {
+    background-color: #1a1a1a !important; /* !important to override browser defaults */
+    color: #f5f5f5 !important;
+    padding: 0.5rem;
+    font-weight: 500;
+  }
+
+  /* Selected/highlighted options */
+  .dark-select option:checked,
+  .dark-select option:hover {
+    background-color: var(--color-royal-600) !important;
+    background: var(--color-royal-600) !important;
+    color: #fff !important;
+  }
+
+  /* Hide legacy Edge/IE arrow */
+  .dark-select::-ms-expand {
+    display: none;
+  }
+
+  /* Custom chevron with better visibility */
+  .select-chevron {
+    position: absolute;
+    inset-inline-end: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: rgba(255, 255, 255, 0.8); /* Brighter chevron */
+    transition: color 0.2s ease;
+  }
+
+  /* Chevron changes color when parent select is focused */
+  .dark-select:focus ~ .select-chevron {
+    color: var(--color-royal-400);
+  }
+}
+
+@layer utilities {
+  /* ========= Fancy gradient-outline CTA (hero/nav) ========= */
+  .btn-outline-hero {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl text-sm sm:text-base;
+    @apply px-5 py-3;
+    position: relative;
+    color: #eaeaea;
+    background:
+      /* inner fill */
+      linear-gradient(var(--surface-1), var(--surface-1)) padding-box,
+      /* gradient border */
+        conic-gradient(
+          from 140deg,
+          var(--color-royal-600),
+          var(--color-mint-600),
+          var(--color-sky-600),
+          var(--color-royal-600)
+        )
+        border-box;
+    border: 1px solid transparent;
+    transition:
+      filter 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+    box-shadow: 0 0 0 1px var(--ring-1) inset;
+    isolation: isolate; /* keep glow under the button */
+  }
+  .btn-outline-hero:hover {
+    background:
+      linear-gradient(var(--surface-2), var(--surface-2)) padding-box,
+      conic-gradient(
+          from 140deg,
+          var(--color-royal-600),
+          var(--color-mint-600),
+          var(--color-sky-600),
+          var(--color-royal-600)
+        )
+        border-box;
+    filter: brightness(1.05);
+    box-shadow:
+      0 0 0 1px var(--ring-2) inset,
+      0 12px 36px rgba(124, 58, 237, 0.22),
+      0 10px 28px rgba(14, 165, 233, 0.18),
+      0 8px 20px rgba(16, 185, 129, 0.16);
+    transform: translateY(-1px);
+  }
+  .btn-outline-hero:active {
+    transform: translateY(0);
+    filter: none;
+  }
+
+  /* slimmer padding for nav placement */
+  .btn-nav {
+    @apply !px-4 !py-2;
+  }
+
+  /* ========= Modern nav link with subtle underline ========= */
+  .nav-link {
+    position: relative;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.18s ease;
+  }
+  .nav-link:hover {
+    color: #fff;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -6px;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
+    opacity: 0.85;
+    background: linear-gradient(
+      90deg,
+      var(--color-royal-600),
+      var(--color-mint-600),
+      var(--color-sky-600)
+    );
+    border-radius: 999px;
+  }
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* ========= Optional: glassy header helper ========= */
+  .header-glass {
+    background: linear-gradient(
+      to bottom,
+      rgba(11, 11, 11, 0.85),
+      rgba(11, 11, 11, 0.6)
+    );
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--ring-1);
+  }
+  .header-glass::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      var(--color-royal-600),
+      var(--color-mint-600),
+      var(--color-sky-600)
+    );
+    opacity: 0.45;
+    pointer-events: none;
+  }
+}
+
+/* ---------- Selection / focus polish ---------- */
+::selection {
+  background: rgba(124, 58, 237, 0.35);
+  color: #fff;
+}
+:focus-visible {
+  outline: 2px solid rgba(124, 58, 237, 0.7);
+  outline-offset: 2px;
 }

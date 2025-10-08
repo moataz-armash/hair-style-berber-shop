@@ -100,60 +100,75 @@ function OfferCard({ offer, i }) {
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: i * 0.08 }}
       className="perspective-1000">
-      <div
-        className={`relative h-[260px] rounded-3xl cursor-pointer preserve-3d transition-transform duration-500`}
-        style={{ transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)" }}
-        onClick={() => setFlipped((s) => !s)}
-        role="button"
-        aria-pressed={flipped}
-        aria-label={`فتح تفاصيل ${offer.title}`}>
-        {/* FRONT */}
-        <div className="absolute inset-0 backface-hidden rounded-3xl shadow-xl overflow-hidden">
-          <div
-            className={`h-full w-full bg-gradient-to-br ${offer.color} text-white p-6 flex flex-col justify-between`}>
-            <div className="space-y-2">
-              <p className="text-sm/5 opacity-80">عرض خاص</p>
-              <h3 className="text-2xl font-extrabold">{offer.title}</h3>
-            </div>
-            <div className="flex items-end justify-between">
-              <div>
-                <span className="text-5xl font-black tracking-tight">
-                  {offer.price}
-                </span>
-                <SaudiRiyal className="w-6 h-6 text-white/90" />
+      {/* إطار أنيق حول البطاقة */}
+      <div className="relative rounded-3xl p-[1.5px] bg-gradient-to-br from-royal-600/40 via-ink-700 to-mint-600/30 shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
+        <div
+          className="relative h-[280px] sm:h-[300px] rounded-3xl cursor-pointer preserve-3d transition-transform duration-500"
+          style={{ transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)" }}
+          onClick={() => setFlipped((s) => !s)}
+          role="button"
+          aria-pressed={flipped}
+          aria-label={`فتح تفاصيل ${offer.title}`}>
+          {/* FRONT */}
+          <div className="absolute inset-0 backface-hidden rounded-3xl overflow-hidden">
+            <div
+              className={`h-full w-full p-6 flex flex-col justify-between text-white
+                          bg-gradient-to-br ${offer.color || "from-royal-600 via-mint-600 to-sky-600"}`}>
+              <div className="space-y-2">
+                <p className="text-xs/5 sm:text-sm/5 text-white/80">عرض خاص</p>
+                <h3 className="text-2xl font-extrabold tracking-tight">
+                  {offer.title}
+                </h3>
               </div>
-              <span className="inline-flex items-center gap-1 text-sand-200 bg-white/10 px-3 py-1 rounded-full">
-                اضغط للتفاصيل <ArrowRight className="w-4 h-4" />
-              </span>
+
+              <div className="flex items-end justify-between">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-black leading-none tracking-tight">
+                    {offer.price}
+                  </span>
+                  <SaudiRiyal className="w-6 h-6 text-white/90" />
+                </div>
+                <span className="inline-flex items-center gap-1 text-sand-200/90 bg-white/15 px-3 py-1 rounded-full">
+                  اضغط للتفاصيل <ArrowRight className="w-4 h-4" />
+                </span>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* BACK */}
-        <div className="absolute inset-0 backface-hidden rounded-3xl shadow-xl overflow-hidden rotate-y-180 bg-white">
-          <div className="h-full w-full p-6 flex flex-col">
-            <h4 className="text-lg font-bold mb-3">{offer.title}</h4>
-            <ul className="space-y-2 text-ink-800/80 overflow-auto">
-              {offer.items.map((it) => (
-                <li key={it} className="flex items-start gap-2">
-                  <BadgeCheck className="w-5 h-5 text-ink-900" />
-                  <span>{it}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-auto pt-4 flex items-center justify-between">
-              <span className="font-extrabold text-ink-900">
-                {offer.price} <SaudiRiyal className="w-5 h-5 text-ink-900" />
-              </span>
-              {offer.link && (
-                <a
-                  href={offer.link}
-                  target="_blank"
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-ink-900/15 hover:bg-sand-50"
-                  onClick={(e) => e.stopPropagation()}>
-                  فتح الـ PDF <ArrowRight className="w-4 h-4" />
-                </a>
-              )}
+          {/* BACK */}
+          <div
+            className="absolute inset-0 backface-hidden rounded-3xl overflow-hidden"
+            style={{ transform: "rotateY(180deg)" }}>
+            <div className="h-full w-full p-6 flex flex-col glass-2 ring-1 text-white">
+              <h4 className="text-lg font-bold mb-3">{offer.title}</h4>
+
+              <ul className="space-y-2 overflow-auto pr-1 muted">
+                {offer.items?.map((it, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <BadgeCheck className="w-5 h-5 text-mint-500 shrink-0 mt-0.5" />
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-auto pt-4 flex items-center justify-between">
+                <span className="font-extrabold text-white">
+                  {offer.price}{" "}
+                  <SaudiRiyal className="w-5 h-5 inline text-white" />
+                </span>
+
+                <div className="flex items-center gap-2">
+                  {offer.link && (
+                    <a
+                      href={offer.link}
+                      target="_blank"
+                      className="btn-outline !px-3 !py-1.5"
+                      onClick={(e) => e.stopPropagation()}>
+                      فتح الـ PDF <ArrowRight className="w-4 h-4" />
+                    </a>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -168,24 +183,24 @@ export default function Offers() {
       id="offers"
       title="باقاتنا وعروضنا"
       subtitle="اضغط على أي بطاقة لعرض التفاصيل كاملة.">
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {OFFERS.map((offer, i) => (
           <OfferCard key={offer.id} offer={offer} i={i} />
         ))}
       </div>
 
-      {/* روابط عامة إضافية (ابقِها لو تحب) */}
+      {/* روابط عامة إضافية */}
       <div className="mt-8 flex flex-wrap gap-3">
         <Link
           href="https://linktr.ee/hairstaylee"
           target="_blank"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl border border-ink-900/15 bg-white/70 hover:bg-white">
+          className="btn-outline">
           كل الروابط عبر Linktree
         </Link>
         <Link
           href="https://drive.google.com/file/d/1rO4N89ND3E4yZdEBccFEF-je970H8UMt/view"
           target="_blank"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl border border-ink-900/15 bg-white/70 hover:bg-white">
+          className="btn-outline">
           قائمة الأسعار (PDF)
         </Link>
       </div>

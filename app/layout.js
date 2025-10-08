@@ -4,7 +4,7 @@ import Footer from "@/app/components/Footer";
 import { Toaster } from "react-hot-toast";
 
 export const metadata = {
-  metadataBase: new URL("https://hairstyle.example"), // غيّر الرابط عند النشر
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL), // غيّر الرابط عند النشر
   title: {
     default: "Hair Style | صالون رجالي — قصّات عصرية وتجربة راقية",
     template: "%s | Hair Style",

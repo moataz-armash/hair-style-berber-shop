@@ -5,8 +5,6 @@ import FinalCTA from "@/app/components/FinalCTA";
 import Benefits from "./components/Benefits";
 import Offers from "./components/Offers";
 import Branches from "./components/Branches";
-import GallerySection from "./components/CardSlider";
-import { gallery } from "./lib/gallery";
 
 const JsonLD = () => (
   <script
@@ -17,9 +15,9 @@ const JsonLD = () => (
         "@context": "https://schema.org",
         "@type": "Barbershop",
         name: "Hair Style",
-        image: "https://hairstyle.example/og.jpg",
+        image: `${process.env.NEXT_PUBLIC_SITE_URL}/og.jpg`,
         description:
-          "صالون رجالي بخدمات قصّ الشعر والعناية بالبشرة والمساج. تقييم 4.9 من +170 مراجعة.",
+          "صالون رجالي بخدمات قصّ الشعر والعناية بالبشرة والمساج. تقييم 5.0 من +186 مراجعة.",
         sameAs: [
           "https://www.instagram.com/hairstylesaudi/",
           "https://www.tiktok.com/@hair.style.saudi",
@@ -27,8 +25,8 @@ const JsonLD = () => (
         ],
         aggregateRating: {
           "@type": "AggregateRating",
-          ratingValue: "4.9",
-          reviewCount: "170",
+          ratingValue: "5.0",
+          reviewCount: "186",
         },
       }),
     }}
@@ -42,11 +40,7 @@ export default function Page() {
       <Hero />
       <Benefits />
       <Offers />
-      {/* <GallerySection
-        items={gallery}
-        // title="Crafted Highlights"
-        // description="Ten handpicked shots that showcase materials, texture, and the small details our customers love."
-      /> */}
+
       <Branches />
       <Social />
       <Testimonials />

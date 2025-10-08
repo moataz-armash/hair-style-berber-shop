@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   metadataBase: new URL("https://hairstyle.example"), // غيّر الرابط عند النشر
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
       <body className="bg-sand-50 text-ink-900">
         <Navbar />
         {children}
+        <Toaster />
         <Footer />
       </body>
     </html>

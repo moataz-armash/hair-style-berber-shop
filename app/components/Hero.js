@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Star, LocateFixed, ArrowRight } from "lucide-react";
+import { Star, Calendar } from "lucide-react";
 import { openNearestBranch } from "@/app/lib/openNearestBranch";
 import CardSlider from "./CardSlider";
 import { gallery } from "../lib/gallery";
+import BookNow from "./BookNow";
 
 export default function Hero() {
   const [loaded, setLoaded] = useState(false);
@@ -67,13 +68,17 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
             className="flex flex-wrap gap-3">
-            <button
+            {/* <button
               onClick={openNearestBranch}
               className="group inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-mint-600 text-white hover:bg-mint-700 transition shadow-lg">
               <LocateFixed className="w-5 h-5" />
               أقرب فرع لك الحين
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
-            </button>
+            </button> */}
+            <BookNow className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-mint-600 text-white cursor-pointer">
+              <Calendar className="w-5 h-5" />
+              احجز موعدك
+            </BookNow>
 
             <a
               href="#offers"

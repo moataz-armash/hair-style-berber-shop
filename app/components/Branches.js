@@ -4,8 +4,9 @@ import { useMemo, useState } from "react";
 import Section from "@/app/components/Section";
 import { BRANCHES } from "@/app/lib/branches";
 import BranchCard from "@/app/components/BranchCard";
-import { LocateFixed, Compass, MapPin } from "lucide-react";
+import { LocateFixed, Compass, MapPin, Loader2 } from "lucide-react";
 import { openNearestBranch } from "@/app/lib/openNearestBranch";
+import toast from "react-hot-toast";
 
 // Haversine
 function distanceKm(a, b) {
@@ -24,7 +25,7 @@ function distanceKm(a, b) {
 
 export default function Branches() {
   const [myPos, setMyPos] = useState(null);
-  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // تجاهل الفروع القادمة من الحساب
   const activeBranches = useMemo(
@@ -55,15 +56,58 @@ export default function Branches() {
   }, [distances, activeBranches]);
 
   function useMyLocation() {
-    setError("");
     if (!navigator.geolocation) {
-      setError("المتصفح لا يدعم تحديد الموقع.");
+      toast.error("متصفحك لا يدعم تحديد الموقع. الرجاء تحديث المتصفح.");
       return;
     }
+
+    setIsLoading(true);
+
+    // Set timeout for geolocation request
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+      toast.error(
+        "استغرق تحديد الموقع وقتًا طويلاً. الرجاء المحاولة مرة أخرى."
+      );
+    }, 10000);
+
     navigator.geolocation.getCurrentPosition(
-      (pos) =>
-        setMyPos({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      () => setError("لم نتمكن من الوصول إلى موقعك.")
+      (pos) => {
+        clearTimeout(timeout);
+        setIsLoading(false);
+        setMyPos({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        toast.success("تم تحديد موقعك بنجاح! الفروع مرتبة حسب القرب منك.");
+      },
+      (error) => {
+        clearTimeout(timeout);
+        setIsLoading(false);
+
+        let errorMessage = "لم نستطع تحديد موقعك. ";
+
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage += "الرجاء السماح بالوصول للموقع من إعدادات المتصفح.";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage += "معلومات الموقع غير متوفرة حاليًا.";
+            break;
+          case error.TIMEOUT:
+            errorMessage +=
+              "انتهت مهلة تحديد الموقع. الرجاء المحاولة مرة أخرى.";
+            break;
+          default:
+            errorMessage += "حدث خطأ غير معروف.";
+        }
+
+        toast.error(errorMessage, {
+          duration: 5000,
+        });
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 300000, // Cache position for 5 minutes
+      }
     );
   }
 
@@ -76,19 +120,23 @@ export default function Branches() {
       <div className="flex flex-wrap items-center gap-3 mb-6">
         <button
           onClick={openNearestBranch}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-mint-600 text-white hover:bg-mint-700 transition shadow">
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-mint-600 text-white hover:bg-mint-700 transition shadow disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isLoading}>
           <LocateFixed className="w-5 h-5" />
           افتح أقرب فرع عبر Google Maps
         </button>
 
         <button
           onClick={useMyLocation}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl border border-ink-900/15 bg-white hover:bg-mint-50 transition">
-          <Compass className="w-5 h-5" />
-          استخدم موقعي للفرز
+          disabled={isLoading}
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl border border-ink-900/15 bg-white hover:bg-mint-50 transition disabled:opacity-50 disabled:cursor-not-allowed">
+          {isLoading ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : (
+            <Compass className="w-5 h-5" />
+          )}
+          {isLoading ? "جارٍ تحديد الموقع..." : "استخدم موقعي للفرز"}
         </button>
-
-        {error && <span className="text-coral-600 text-sm">{error}</span>}
       </div>
 
       {/* الشبكة */}

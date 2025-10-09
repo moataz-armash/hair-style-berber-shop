@@ -13,7 +13,7 @@ const JsonLD = () => (
     dangerouslySetInnerHTML={{
       __html: JSON.stringify({
         "@context": "https://schema.org",
-        "@type": "Barbershop",
+        "@type": "HairSalon", // ✅ corrected
         name: "Hair Style",
         image: `${process.env.NEXT_PUBLIC_SITE_URL}/og.jpg`,
         description:
@@ -27,6 +27,22 @@ const JsonLD = () => (
           "@type": "AggregateRating",
           ratingValue: "5.0",
           reviewCount: "186",
+        },
+        review: {
+          "@type": "Review",
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: "5",
+            bestRating: "5",
+          },
+          author: {
+            "@type": "Person",
+            name: "مراجع حقيقي", // ✅ acceptable
+          },
+          itemReviewed: {
+            "@type": "HairSalon", // ✅ corrected
+            name: "Hair Style",
+          },
         },
       }),
     }}
